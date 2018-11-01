@@ -1,7 +1,7 @@
 #!/bin/sh -x
 
 gen_name_diagram() {
-  # Grab a random twochar selection from the dictionary.
+  # Grab a random twochar selection from the dictionary, and lowercase it.
   val=$(cat /usr/share/dict/words | cut -c-2 | uniq | shuf -n1 | tr '[:upper:]' '[:lower:]')
   # If we got something nonenglish, retry.
   while [ "$val" = 'bq' ] || [ "$val" = 'bz' ] ||
@@ -55,7 +55,19 @@ gen_class() {
 }
 
 intro_text() {
-  echo 'Long ago, when the four winds stood fair, and the forests sang their songs, there was a cave, beneath a castle. From that cave great evil arose, and took the symbol of purity and justice, our fair princess, and vanished into the depths below.'
+  # TODO: Multiple intros. Because.
+  # About ~5?
+  printf '%s\n%s\n' \
+  'Long ago, when the four winds stood fair, and the forests sang their songs, there was a cave, beneath a castle. From that cave great evil arose, and took the symbol of purity and justice, our fair princess, and vanished into the depths below.' \
+  'Before the world we know began, there was another, full of witchcraft, demons, and princesses. One such princess has vanished, dragged into a cave by a great evil.' | shuf -n1
+}
+
+intro_text2() {
+  # TODO: Multiple final intro fragments.
+  # About 5?
+  printf '%s\n%s\n' \
+    "It was $player_name the $player_class who delved below, to save our hope." \
+    "Rising up, it was $player_name, the legendary $player_class, who attacked the dungeon!" | shuf -n1
 }
 
 event_cave() {
@@ -89,7 +101,8 @@ title_action() {
   printf '%s\n%s\n%s\n%s\n' "'s" \
     ' finds a' \
     ' encounters a' \
-    ' hits a' | shuf -n1
+    ' hits a' \
+    ' goes forth, to' | shuf -n1
 }
 
 title_descriptor() {
@@ -137,7 +150,8 @@ echo '' >> output
 echo '---' >> output
 echo '' >> output
 intro_text >> output
-echo "It was $player_name the $player_class who delved below, to save our hope." >> output
+intro_text2 >> output
+
 echo 'Beginning main loop...'
 
 # Set the first chapter heading
@@ -161,7 +175,8 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
     # TODO: ~25 crystal descriptors.
     printf '%s\n%s\n%s\n' 'The walls are studded with gems. ' \
       'The ground is littered with small gemstones, embedded deeply into the rock. ' \
-      'Some crystalline structures can be seen lining the walls. ' | shuf -n1 | xargs -0 printf '%s ' >> output
+      'Some crystalline structures can be seen lining the walls. ' \
+      'The room is brighter, thanks to the white crystal lining the ceiling.' | shuf -n1 | xargs -0 printf '%s ' >> output
   fi
 
   sunlight=$(echo "$data" | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $5}')
@@ -170,7 +185,8 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
     # TODO: ~25 light descriptors.
     printf '%s\n%s\n%s\n' 'A small beam of light breaks through from somewhere above, lighting the cave.' \
       'An unknown light illuminates the area.' \
-      'A slither of light illuminates the center of the cave.' | shuf -n1 | xargs -0 printf '%s ' >> output
+      'A slither of light illuminates the center of the cave.' \
+      "There is no need for torchlight here, somehow light from the sun has found it's own way into the depths." | shuf -n1 | xargs -0 printf '%s ' >> output
   fi
 
 
@@ -208,6 +224,25 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
       "The hairs on the back of $player_name's neck stand up. There's something here." \
       | shuf -n1 | xargs -0 printf '%s ' >> output
     #TODO: Class-based fight, several rounds. Player should nearly lose.
+    if [ "$player_class" = 'Warrior' ]; then
+      #TODO: Warrior
+      :
+    elif [ "$player_class" = 'Wizard' ]; then
+      #TODO: Wizard
+      :
+    elif [ "$player_class" = 'Alchemist' ]; then
+      #TODO: Alchemist
+      :
+    elif [ "$player_class" = 'Rogue' ]; then
+      #TODO: Rogue
+      :
+    elif [ "$player_class" = 'Cleric' ]; then
+      #TODO: Cleric
+      :
+    elif [ "$player_class" = 'Healer' ]; then
+      #TODO: Healer
+      :
+    fi
   elif [ "$enemy" = 1 ]; then
     #TODO: ~25 fight introductions.
     printf '%s\n%s\n' "A snarl catches $player_name's attention!" \
@@ -216,6 +251,25 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
       'There is a silhouette up ahead.' \
       | shuf -n1 | xargs -0 printf '%s ' >> output
     #TODO: Class-based fight, several rounds. Random if player wins outright, or nearly loses.
+    if [ "$player_class" = 'Warrior' ]; then
+      #TODO: Warrior
+      :
+    elif [ "$player_class" = 'Wizard' ]; then
+      #TODO: Wizard
+      :
+    elif [ "$player_class" = 'Alchemist' ]; then
+      #TODO: Alchemist
+      :
+    elif [ "$player_class" = 'Rogue' ]; then
+      #TODO: Rogue
+      :
+    elif [ "$player_class" = 'Cleric' ]; then
+      #TODO: Cleric
+      :
+    elif [ "$player_class" = 'Healer' ]; then
+      #TODO: Healer
+      :
+    fi
   fi
 
   # Then loot
@@ -224,6 +278,25 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
   if [ "$treasure" = 1 ]; then
     # TODO: Class-based, random loot, ~25
     printf '' | shuf -n1 | xargs -0 printf '%s ' >> output
+    if [ "$player_class" = 'Warrior' ]; then
+      #TODO: Warrior
+      :
+    elif [ "$player_class" = 'Wizard' ]; then
+      #TODO: Wizard
+      :
+    elif [ "$player_class" = 'Alchemist' ]; then
+      #TODO: Alchemist
+      :
+    elif [ "$player_class" = 'Rogue' ]; then
+      #TODO: Rogue
+      :
+    elif [ "$player_class" = 'Cleric' ]; then
+      #TODO: Cleric
+      :
+    elif [ "$player_class" = 'Healer' ]; then
+      #TODO: Healer
+      :
+    fi
   fi
 
   # Then weird voice guy
@@ -231,7 +304,8 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
   echo "Voice: $evil_narrator"
   if [ "$evil_narrator" = 1 ]; then
     #TODO: Random remark about how terrible the player is going. ~50
-    printf '' | shuf -n1 | xargs -0 printf '%s ' >> output
+    printf '%s\n%s\n' "A voice, not quite there, speaks softly. 'Your death was predicted before your birth.'" \
+    "Echoing, from some distance, a voice speaks: '$player_name, did you know? That were doomed even before you began?'" | shuf -n1 | xargs -0 printf '%s ' >> output
   fi
 
   # Then traces
@@ -242,32 +316,42 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
   # Traces are mutually exclusive.
   if [ "$trace_of_princess" = 1 ]; then
     #TODO: Princess trail ~25
-    printf '' | shuf -n1 | xargs -0 printf '%s ' >> output
+    printf '%s\n' 'There is a scrap of cloth here. Fine, silk. From the dress of no one less than a princess.' \
+      "A small stone catches the eye of $player_name. It's a diamond. Knocked loose from some larger arrangement. The princess came this way." | shuf -n1 | xargs -0 printf '%s ' >> output
   elif [ "$trace_of_monster" = 1 ]; then
     #TODO: Monster trail ~25
-    printf '' | shuf -n1 | xargs -0 printf '%s ' >> output
+    printf '%s\n' 'Large claws of gauged away the dirt here. Footprints, of some larger demon.' \
+      "$player_name smiled grimly as they saw the clawmarks on the wall. The demon went this way." | shuf -n1 | xargs -0 printf '%s ' >> output
   fi
 
   # TODO: Then room transition. ~25
   printf '%s\n' "Undaunted, the $player_class heads deeper." \
-  "$player turns their gaze to the next narrow opening, that joins this cave, to the next." | shuf -n1 | xargs -0 printf '%s ' >> output
+  "$player_name turns their gaze to the next narrow opening, that joins this cave, to the next." | shuf -n1 | xargs -0 printf '%s ' >> output
 
   echo ''
   echo ''
 done
 
 #TODO: Final monster battle, player has 50/50 succeed, failure.
+echo 'Final battle...'
+success=$(shuf -i 1-2 -n 1)
 
-#TODO: If succeed, player has 50/50 chance of convincing princess to return.
+#TODO: If succeed, player has 50/50 chance of convincing princess to return, or her being the strange voice and eating their soul.
+if [ "$success" = 1 ]; then
+  echo 'Negotiating with princess...'
+fi
 
 echo 'Final Size:'
 wc -w output
 
 # Build PDF
+echo 'Building pdf...'
 pandoc --toc --chapters -fmarkdown output -obuild.pdf
 
 # Build HTML
+echo 'Building HTML...'
 pandoc --toc --chapters -fmarkdown output -thtml -obuild.html
 
 # Build ePub
+echo 'Building ePub...'
 pandoc --toc --chapters -fmarkdown output -tepub -obuild.epub
