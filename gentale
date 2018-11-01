@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 gen_name_diagram() {
   # Grab a random twochar selection from the dictionary, and lowercase it.
   val=$(cat /usr/share/dict/words | cut -c-2 | uniq | shuf -n1 | tr '[:upper:]' '[:lower:]')
@@ -100,37 +102,91 @@ event_cave() {
   shuf -i 1-10 -n 1
 }
 
-title_action() {
-  # TODO: ~20 actions.
-  printf '%s\n%s\n%s\n%s\n' "'s" \
-    ' finds a' \
-    ' encounters a' \
-    ' hits a' \
-    ' goes forth, to' | shuf -n1
-}
+# OUTDATED
+# title_action() {
+#   # TODO: ~20 actions.
+#   printf '%s\n%s\n%s\n%s\n' "'s" \
+#     ' finds a' \
+#     ' encounters a' \
+#     ' hits a' \
+#     ' goes forth, to' | shuf -n1
+# }
 
-title_descriptor() {
-  # TODO: ~20 descriptors.
-  printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n' 'Great' \
-    'Dangerous' \
-    'Enormous' \
-    'Fantastic' \
-    'Brilliant' \
-    'Creative' \
-    'Joyous' | shuf -n1
-}
+# title_descriptor() {
+#   # TODO: ~20 descriptors.
+#   printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n' 'Great' \
+#     'Dangerous' \
+#     'Enormous' \
+#     'Fantastic' \
+#     'Brilliant' \
+#     'Creative' \
+#     'Joyous' | shuf -n1
+# }
 
-title_prepender() {
-  # TODO: ~20 prepends.
-  printf '%s\n%s\n%s\n%s\n' 'Trial' \
-    'Hope' \
-    'Chance' \
-    'Encounter' | shuf -n1
-}
+# title_prepender() {
+#   # TODO: ~20 prepends.
+#   printf '%s\n%s\n%s\n%s\n' 'Trial' \
+#     'Hope' \
+#     'Chance' \
+#     'Encounter' | shuf -n1
+# }
 
 random_title() {
-  #TODO: This is craaaaaaaaaaaaaaaaaaap.
-    echo "$player_name the $player_class$(title_action) $(title_descriptor) $(title_prepender)"
+  if [ "$player_class" = 'Wizard' ]; then
+  	printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n' 'Fire' \
+  	'Earth' \
+  	'Water' \
+  	'Wind' \
+  	'Flesh' \
+  	'Blood' \
+  	'Shadow' \
+  	'Light' \
+  	'Holy' \
+  	'Demon' | shuf -n1
+  elif [ "$player_class" = 'Warrior' ]; then
+  	printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n' 'Sword' \
+  	'Shield' \
+  	'Club' \
+  	'Mace' \
+  	'Dagger' \
+  	'Falchion' \
+  	'Katana' \
+  	'Knife' \
+  	'Longsword' \
+  	'Sabre' \
+  	'Ulfberht' \
+  	'Estoc' \
+  	'Rapier' \
+  	'Flail' \
+  	'Maul' \
+  	'Morning Star' | shuf -n1
+  elif [ "$player_class" = 'Paladin' ]; then
+  	printf '%s' 'Saint '
+  	printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n' 'Augustine' \
+  	'Saturius' \
+  	'Abakuh' \
+  	'Abban' \
+  	'Abel' \
+  	'Abraham' \
+  	'Anna' \
+  	'Birinius' \
+  	'Brendan' \
+  	'Bridget' \
+  	'Brioc' \
+  	'Casimir' \
+  	'Catherine' \
+  	'Charles' \
+  	'Christopher' \
+  	'David' \
+  	'Dimitry' \
+  	'Dunstan' \
+  	'Dominic' | shuf -n1
+  fi
+
+  echo ''
+
+  #Old crap title generator.
+  #echo "$player_name the $player_class$(title_action) $(title_descriptor) $(title_prepender)"
 }
 
 # Main
@@ -178,16 +234,21 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
   echo "Crystals: $crystals"
   if [ "$crystals" = 1 ]; then
     # TODO: ~15 crystal descriptors.
-    printf '%s\n%s\n%s\n' 'The walls are studded with gems. ' \
+    # Currently: 7
+    printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n' 'The walls are studded with gems. ' \
       'The ground is littered with small gemstones, embedded deeply into the rock. ' \
       'Some crystalline structures can be seen lining the walls. ' \
-      'The room is brighter, thanks to the white crystal lining the ceiling.' | shuf -n1 | xargs -0 printf '%s ' >> output
+      'The room is brighter, thanks to the white crystal lining the ceiling.' \
+      'The ground underfoot emits a grinding noise, fragile quartz collapsing under the weight.' \
+      'Stalctites dot the cave, crystals grown over generations.' \
+      'Almost like stars, diamonds dot the walls, tiny bright lights in a dark surface.' | shuf -n1 | xargs -0 printf '%s ' >> output
   fi
 
   sunlight=$(echo "$data" | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $5}')
   echo "Sunlight: $sunlight"
   if [ "$sunlight" = 1 ]; then
     # TODO: ~15 light descriptors.
+    # Currently: 4
     printf '%s\n%s\n%s\n' 'A small beam of light breaks through from somewhere above, lighting the cave.' \
       'An unknown light illuminates the area.' \
       'A slither of light illuminates the center of the cave.' \
@@ -199,6 +260,7 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
   echo "Blood: $blood"
   if [ "$blood" = 1 ]; then
     #TODO: ~15 blood descriptors.
+    # Currently: 3
     printf '%s\n%s\n%s\n' "There's a small trail of blood here." \
       "There's a splash of blood against the wall." \
       'A sharp eye can detect patches of darkened red in the malformed rock. Blood.' | shuf -n1 | xargs -0 printf '%s ' >> output
@@ -209,6 +271,7 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
   echo "Water: $water"
   if [ "$water" = 1 ]; then
     #TODO: ~15 water descriptors.
+    # Currently: 3
     printf '%s\n%s\n%s\n' 'A stream of water winds through the cave.' \
       'Water drips from the ceiling.' \
       'A small stream runs down one wall of the cave.' | shuf -n1 | xargs -0 printf '%s ' >> output
@@ -341,6 +404,7 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
   echo "Voice: $evil_narrator"
   if [ "$evil_narrator" = 1 ]; then
     #TODO: Random remark about how terrible the player is going. ~50
+    # Currently: 2
     printf '%s\n%s\n' "A voice, not quite there, speaks softly. 'Your death was predicted before your birth.'" \
     "Echoing, from some distance, a voice speaks: '$player_name, did you know? That you were doomed even before you began?'" | shuf -n1 | xargs -0 printf '%s ' >> output
   fi
@@ -353,16 +417,19 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
   # Traces are mutually exclusive.
   if [ "$trace_of_princess" = 1 ]; then
     #TODO: Princess trail ~25
+    # Currently: 2
     printf '%s\n' 'There is a scrap of cloth here. Fine, silk. From the dress of no one less than a princess.' \
       "A small stone catches the eye of $player_name. It's a diamond. Knocked loose from some larger arrangement. The princess came this way." | shuf -n1 | xargs -0 printf '%s ' >> output
   elif [ "$trace_of_monster" = 1 ]; then
     #TODO: Monster trail ~25
-    printf '%s\n' 'Large claws of gauged away the dirt here. Footprints, of some larger demon.' \
+    # Currently: 2
+    printf '%s\n%s\n' 'Large claws of gauged away the dirt here. Footprints, of some larger demon.' \
       "$player_name smiled grimly as they saw the clawmarks on the wall. The demon went this way." | shuf -n1 | xargs -0 printf '%s ' >> output
   fi
 
   # TODO: Then room transition. ~25
-  printf '%s\n' "Undaunted, the $player_class heads deeper." \
+  #Currently: 2
+  printf '%s\n%s\n' "Undaunted, the $player_class heads deeper." \
   "$player_name turns their gaze to the next narrow opening, that joins this cave, to the next." | shuf -n1 | xargs -0 printf '%s ' >> output
 
   echo '' >> output
@@ -387,6 +454,7 @@ if [ "$success" = 1 ]; then
 else
   #TODO: Player lost. Dead. Try and be sensitive with our readers who just wasted their time.
   # ~5 endings.
+  # Currently: 4
   printf '%s\n%s\n%s\n%s\n%s\n' \
     "$player_name lay on the ground, coughing as they drowned in the blood pouring from their shattered frame. It was over. The battle was lost. The princess was gone. Evil would inherit the surface... What evil? Humanity would be expunged... Which meant there was no evil, not anymore. Just the rightful owner taking back what was already theirs. Humanity was the evil. $player_name closed their eyes, for the last time." \
     "$player_name collapsed backwards, staring at the black ceiling, unseeing. Their senses were fading or gone. The last moment, their last moment, was hearing a distant scream, of a dying princess. Of hope dying. Our hope is dead." \
