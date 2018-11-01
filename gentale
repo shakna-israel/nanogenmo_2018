@@ -1,0 +1,273 @@
+#!/bin/sh -x
+
+gen_name_diagram() {
+  # Grab a random twochar selection from the dictionary.
+  val=$(cat /usr/share/dict/words | cut -c-2 | uniq | shuf -n1 | tr '[:upper:]' '[:lower:]')
+  # If we got something nonenglish, retry.
+  while [ "$val" = 'bq' ] || [ "$val" = 'bz' ] ||
+  [ "$val" = 'cf' ] || [ "$val" = 'cj' ] || [ "$val" = 'cv' ] ||
+  [ "$val" = 'cx' ] || [ "$val" = 'fq' ] || [ "$val" = 'fv' ] ||
+  [ "$val" = 'fx' ] || [ "$val" = 'fz' ] || [ "$val" = 'gq' ] ||
+  [ "$val" = 'gv' ] || [ "$val" = 'gx' ] || [ "$val" = 'hx' ] ||
+  [ "$val" = 'hz' ] || [ "$val" = 'jb' ] || [ "$val" = 'jd' ] ||
+  [ "$val" = 'jf' ] || [ "$val" = 'jg' ] || [ "$val" = 'jh' ] ||
+  [ "$val" = 'jl' ] || [ "$val" = 'jm' ] || [ "$val" = 'jp' ] ||
+  [ "$val" = 'jq' ] || [ "$val" = 'jr' ] || [ "$val" = 'js' ] ||
+  [ "$val" = 'jt' ] || [ "$val" = 'jv' ] || [ "$val" = 'jw' ] ||
+  [ "$val" = 'jx' ] || [ "$val" = 'jy' ] || [ "$val" = 'jz' ] ||
+  [ "$val" = 'kq' ] || [ "$val" = 'kx' ] || [ "$val" = 'kz' ] ||
+  [ "$val" = 'mx' ] || [ "$val" = 'mz' ] || [ "$val" = 'pq' ] ||
+  [ "$val" = 'pv' ] || [ "$val" = 'px' ] || [ "$val" = 'qb' ] ||
+  [ "$val" = 'qc' ] || [ "$val" = 'qd' ] || [ "$val" = 'qf' ] ||
+  [ "$val" = 'qg' ] || [ "$val" = 'qh' ] || [ "$val" = 'qj' ] ||
+  [ "$val" = 'qk' ] || [ "$val" = 'ql' ] || [ "$val" = 'qm' ] ||
+  [ "$val" = 'qn' ] || [ "$val" = 'qp' ] || [ "$val" = 'qq' ] ||
+  [ "$val" = 'qv' ] || [ "$val" = 'qw' ] || [ "$val" = 'qx' ] ||
+  [ "$val" = 'qy' ] || [ "$val" = 'qz' ] || [ "$val" = 'sx' ] ||
+  [ "$val" = 'tq' ] || [ "$val" = 'vb' ] || [ "$val" = 'vf' ] ||
+  [ "$val" = 'vh' ] || [ "$val" = 'vj' ] || [ "$val" = 'vk' ] ||
+  [ "$val" = 'vm' ] || [ "$val" = 'vp' ] || [ "$val" = 'vq' ] ||
+  [ "$val" = 'vw' ] || [ "$val" = 'vx' ] || [ "$val" = 'wq' ] ||
+  [ "$val" = 'wv' ] || [ "$val" = 'wx' ] || [ "$val" = 'xd' ] ||
+  [ "$val" = 'xj' ] || [ "$val" = 'xk' ] || [ "$val" = 'xr' ] ||
+  [ "$val" = 'xz' ] || [ "$val" = 'yq' ] || [ "$val" = 'yy' ] ||
+  [ "$val" = 'zf' ] || [ "$val" = 'zr' ] || [ "$val" = zx ]
+  do
+    val=$(cat /usr/share/dict/words | cut -c-2 | uniq | shuf -n1 | tr '[:upper:]' '[:lower:]')
+  done
+  echo "$val"
+}
+
+gen_name() {
+  # Fairly crappy name generator.
+  name=''
+  for i in $(seq 1 $(shuf -i 2-4 -n 1)); do
+    name="$name$(gen_name_diagram)"
+  done
+  # Capitalise first letter
+  name=$(echo "$name" | awk '{ for ( i=1; i <= NF; i++) { sub(".", substr(toupper($i),1,1) , $i) } print }')
+  echo "$name"
+}
+
+gen_class() {
+  # Choose one of...
+  printf '%s\n%s\n%s\n%s\n%s\n%s\n' 'Warrior' 'Wizard' 'Alchemist' 'Rogue' 'Cleric' 'Healer' | shuf -n1
+}
+
+intro_text() {
+  echo 'Long ago, when the four winds stood fair, and the forests sang their songs, there was a cave, beneath a castle. From that cave great evil arose, and took the symbol of purity and justice, our fair princess, and vanished into the depths below.'
+}
+
+event_cave() {
+  # Returns a series of lines, in boolean form.
+  # Meant to represent the content of a cave.
+
+  # Has treasure?
+  shuf -i 1-3 -n 1
+  # Has enemy?
+  shuf -i 1-3 -n 1
+  # Has water?
+  shuf -i 1-3 -n 1
+  # Has crystalline structures?
+  shuf -i 1-3 -n 1
+  # Has sunlight?
+  shuf -i 1-3 -n 1
+  # Has blood?
+  shuf -i 1-5 -n 1
+  # Has Boss?
+  shuf -i 1-100 -n 1
+  # Has trace of princess?
+  shuf -i 1-50 -n 1
+  # Has trace of monster?
+  shuf -i 1-50 -n 1
+  # Has evil narrator?
+  shuf -i 1-10 -n 1
+}
+
+title_action() {
+  # TODO: ~20 actions.
+  printf '%s\n%s\n%s\n%s\n' "'s" \
+    ' finds a' \
+    ' encounters a' \
+    ' hits a' | shuf -n1
+}
+
+title_descriptor() {
+  # TODO: ~20 descriptors.
+  printf '%s\n%s\n%s\n%s\n%s\n%s\n' 'Great' \
+    'Dangerous' \
+    'Enormous' \
+    'Fantastic' \
+    'Brilliant' \
+    'Creative' \
+    'Joyous' | shuf -n1
+}
+
+title_prepender() {
+  # TODO: ~20 prepends.
+  printf '%s\n%s\n%s\n%s\n' 'Trial' \
+    'Hope' \
+    'Chance' \
+    'Encounter' | shuf -n1
+}
+
+random_title() {
+    echo "$player_name the $player_class$(title_action) $(title_descriptor) $(title_prepender)"
+}
+
+# Main
+
+if [ -r 'output' ]; then
+  rm 'output'
+fi
+touch output
+
+echo '% Dungeon Crawl' >> output
+echo '' >> output
+echo '---' >> output
+echo '' >> output
+
+echo 'Generating name...'
+player_name=$(gen_name)
+echo 'Generating class...'
+player_class=$(gen_class)
+echo 'Introductory text...'
+echo '# Prologue' >> output
+echo '' >> output
+echo '---' >> output
+echo '' >> output
+intro_text >> output
+echo "It was $player_name the $player_class who delved below, to save our hope." >> output
+echo 'Beginning main loop...'
+
+# Set the first chapter heading
+#TODO: Make this loop to 50,000 again.
+while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
+  echo 'Setting chapter title...'
+  echo '' >> output
+  title=$(random_title)
+  echo "# $title" >> output
+  echo '' >> output
+  echo '---' >> output
+  echo '' >> output
+
+  echo 'Looping...'
+  data=$(event_cave)
+
+  # First, description
+  crystals=$(echo "$data" | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $4}')
+  echo "Crystals: $crystals"
+  if [ "$crystals" = 1 ]; then
+    # TODO: ~25 crystal descriptors.
+    printf '%s\n%s\n%s\n' 'The walls are studded with gems. ' \
+      'The ground is littered with small gemstones, embedded deeply into the rock. ' \
+      'Some crystalline structures can be seen lining the walls. ' | shuf -n1 | xargs -0 printf '%s ' >> output
+  fi
+
+  sunlight=$(echo "$data" | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $5}')
+  echo "Sunlight: $sunlight"
+  if [ "$sunlight" = 1 ]; then
+    # TODO: ~25 light descriptors.
+    printf '%s\n%s\n%s\n' 'A small beam of light breaks through from somewhere above, lighting the cave.' \
+      'An unknown light illuminates the area.' \
+      'A slither of light illuminates the center of the cave.' | shuf -n1 | xargs -0 printf '%s ' >> output
+  fi
+
+
+  blood=$(echo "$data" | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $6}')
+  echo "Blood: $blood"
+  if [ "$blood" = 1 ]; then
+    #TODO: ~ 25 blood descriptors.
+    printf '%s\n%s\n%s\n' "There's a small trail of blood here." \
+      "There's a splash of blood against the wall." \
+      'A sharp eye can detect patches of darkened red in the malformed rock. Blood.' | shuf -n1 | xargs -0 printf '%s ' >> output
+  fi
+
+
+  water=$(echo "$data" | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $3}')
+  echo "Water: $water"
+  if [ "$water" = 1 ]; then
+    #TODO: ~25 water descriptors.
+    printf '%s\n%s\n%s\n' 'A stream of water winds through the cave.' \
+      'Water drips from the ceiling.' \
+      'A small stream runs down one wall of the cave.' | shuf -n1 | xargs -0 printf '%s ' >> output
+  fi
+
+  # Newline after descriptors.
+  echo '' >> output
+
+  # Then fight
+  boss=$(echo "$data" | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $7}')
+  echo "Boss: $boss"
+  enemy=$(echo "$data" | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $2}')
+  echo "Enemy: $enemy"
+  # Enemies and bosses are mutually exclusive.
+  if [ "$boss" = 1 ]; then
+    #TODO: ~25 boss fight introductions.
+    printf '%s\n%s\n' 'The ground trembles as something approaches out of the dark.' \
+      "The hairs on the back of $player_name's neck stand up. There's something here." \
+      | shuf -n1 | xargs -0 printf '%s ' >> output
+    #TODO: Class-based fight, several rounds. Player should nearly lose.
+  elif [ "$enemy" = 1 ]; then
+    #TODO: ~25 fight introductions.
+    printf '%s\n%s\n' "A snarl catches $player_name's attention!" \
+      "A flash of movement catches $player_name's attention." \
+      'Something growls in the dark.' \
+      'There is a silhouette up ahead.' \
+      | shuf -n1 | xargs -0 printf '%s ' >> output
+    #TODO: Class-based fight, several rounds. Random if player wins outright, or nearly loses.
+  fi
+
+  # Then loot
+  treasure=$(echo "$data" | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $1}')
+  echo "Treasure: $treasure"
+  if [ "$treasure" = 1 ]; then
+    # TODO: Class-based, random loot, ~25
+    printf '' | shuf -n1 | xargs -0 printf '%s ' >> output
+  fi
+
+  # Then weird voice guy
+  evil_narrator=$(echo "$data" | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $10}')
+  echo "Voice: $evil_narrator"
+  if [ "$evil_narrator" = 1 ]; then
+    #TODO: Random remark about how terrible the player is going. ~50
+    printf '' | shuf -n1 | xargs -0 printf '%s ' >> output
+  fi
+
+  # Then traces
+  trace_of_princess=$(echo "$data" | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $8}')
+  echo "Princess: $trace_of_princess"
+  trace_of_monster=$(echo "$data" | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $9}')
+  echo "Monster: $trace_of_monster"
+  # Traces are mutually exclusive.
+  if [ "$trace_of_princess" = 1 ]; then
+    #TODO: Princess trail ~25
+    printf '' | shuf -n1 | xargs -0 printf '%s ' >> output
+  elif [ "$trace_of_monster" = 1 ]; then
+    #TODO: Monster trail ~25
+    printf '' | shuf -n1 | xargs -0 printf '%s ' >> output
+  fi
+
+  # TODO: Then room transition. ~25
+  printf '%s\n' "Undaunted, the $player_class heads deeper." \
+  "$player turns their gaze to the next narrow opening, that joins this cave, to the next." | shuf -n1 | xargs -0 printf '%s ' >> output
+
+  echo ''
+  echo ''
+done
+
+#TODO: Final monster battle, player has 50/50 succeed, failure.
+
+#TODO: If succeed, player has 50/50 chance of convincing princess to return.
+
+echo 'Final Size:'
+wc -w output
+
+# Build PDF
+pandoc --toc --chapters -fmarkdown output -obuild.pdf
+
+# Build HTML
+pandoc --toc --chapters -fmarkdown output -thtml -obuild.html
+
+# Build ePub
+pandoc --toc --chapters -fmarkdown output -tepub -obuild.epub
