@@ -51,7 +51,7 @@ gen_name() {
 
 gen_class() {
   # Choose one of...
-  printf '%s\n%s\n%s\n%s\n%s\n%s\n' 'Warrior' 'Wizard' 'Paladin' | shuf -n1
+  printf '%s\n%s\n%s\n' 'Warrior' 'Wizard' 'Paladin' | shuf -n1
 }
 
 intro_text() {
@@ -111,7 +111,7 @@ title_action() {
 
 title_descriptor() {
   # TODO: ~20 descriptors.
-  printf '%s\n%s\n%s\n%s\n%s\n%s\n' 'Great' \
+  printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n' 'Great' \
     'Dangerous' \
     'Enormous' \
     'Fantastic' \
@@ -160,7 +160,7 @@ echo 'Beginning main loop...'
 
 # Set the first chapter heading
 #TODO: Make this loop to 50,000 again.
-while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
+while [ "$(wc -w output | awk '{print $1}')" -lt 5000 ]; do
   echo 'Setting chapter title...'
   echo '' >> output
   title=$(random_title)
@@ -229,11 +229,39 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
       | shuf -n1 | xargs -0 printf '%s ' >> output
     #TODO: Class-based fight, several rounds. Player should nearly lose.
     if [ "$player_class" = 'Warrior' ]; then
-      #TODO: Warrior
-      :
+      # Warrior
+      #Round 1
+      printf '%s\n%s\n%s\n' "Laughter surrounds the cave. A shadow crawls up the wall, before falling before $player_name, the Demon stands tall. So, with a quick blade, $player_name attempts to cut them down to size. The sword bounces harmlessly away. However, the demon's claws don't exactly bounce so much as carve-up the armour of the Warrior, who is tossed into the wall." \
+        "With a burst of flame, a Demon appears. Not the creature that $player_name is seeking, but one sent to get in their way. They charge forward, yelling, sword in hand. A billow of flames slams them against the wall of the cave. $player_name lies there, groaning and bleeding, as the Demon approaches." \
+        "The ground explodes into a shard of rocks. $player_name raises their shield, fending off the debris, as they gaze into the dust. What stands there, waiting, is nothing less than a Demon. A lord of shadows... But not *the* Demon that $player_name seeks. A lesser creature, sent to be a railroad. With a sigh, the Warrior charges forward. Overconfidence pays it's karma. A tail pierces $player_name's armor, and pierces their flesh like nothing. The tail cracks, and the Warrior slams into the wall." | shuf -n1 | xargs -0 printf '%s ' >> output
+      echo '' >> output
+      echo '' >> output
+      #Round 2, player against wall. Fighting demon.
+      printf '%s\n%s\n%s\n' "The demon laughs, spreading it's claws. 'Is this all the surface has to offer? They're greatest warrior?' $player_name staggers upright slowly, glaring, but wasting no energy on words. They stumble forward, sword swinging. The demon knocks it out of their hands without effort." \
+        "'Truly, the surface is a world ready to be conquered.' The demon laughs, pointing at the bleeding Warrior, 'What are you? A gnat attacking a dog?' However, the Warrior ignores the insult. They steady their hands, clasping the hilt of their sword, and charge towards the Demon. The creature yawns, and throws a ball of flame, blasting the blade out of $player_name's hands." \
+        "The Demon stares at the Warrior in surprise, 'Is that all? All the fight you have to give? How can you hope to win? To save your princess?' $player_name forced themselves to their feet, righting the sword in their hands, 'I wasn't done yet, Demon'. The creature snaps it's tail, knocking the sword flying and embedding it into the cave wall. 'Yes, you are, little creature.'" | shuf -n1 | xargs -0 printf '%s ' >> output
+        echo '' >> output
+        echo '' >> output
+      #Round 3, player is disarmed, injured. Must win.
+      printf '%s\n%s\n%s\n' "The Demon places a hand on $player_name's shoulder, 'You must know, you cannot win.' A dagger appears in the Warrior's hand, and then disappears into the Demon's flesh. It howls, pulling backwards, but the Warrior is already leaping, and slamming their small knife into the throat of the monster. It dies slowly." \
+        "The Demon crouches in front of the Warrior, 'You cannot-' It is interrupted by a dagger piercing it's eyes, followed up quickly by a slash across the throat. It stumbles backwards, already dying. $player_name smiles grimly." \
+        "The Demon picks up the Warrior by their head, smiling, 'How will you win now, little creature?' A dagger, in the hand of $player_name, thrusts into the speaking Demon's throat. They both fall to the ground, but the smaller stands again. The other does not." | shuf -n1 | xargs -0 printf '%s ' >> output
+        echo '' >> output
+        echo '' >> output
+      #Player must recover their sword.
+      printf '%s\n%s\n%s\n' "$player_name retrieves their sword." \
+        "$player_name takes a moment to gather their things." \
+        "The sword slams back into it's sheathe." | shuf -n1 | xargs -0 printf '%s ' >> output
+      echo '' >> output
+      echo '' >> output
     elif [ "$player_class" = 'Wizard' ]; then
-      #TODO: Wizard
-      :
+      # Wizard
+      # TODO: Round 1
+      printf '%s\n%s\n%s\n' "$player_name recognised the signs instantly. They'd been in enough summonings-gone-wrong to know when a Demon was about to make their entrance. The gouts of flame bounced harmlessly off the conjured Ward. The Demon looked a bit disappointed for a moment, before unleashing a deafening explosion of flame. $player_name winced, watching their Ward cracking. It buckled. The Wizard was pounded into the wall." \
+        "" \
+        "" | shuf -n1 | xargs -0 printf '%s ' >> output
+      # TODO: Round 2, player against wall, injured.
+      # TODO: Round 3
     elif [ "$player_class" = 'Paladin' ]; then
       #TODO: Paladin
       :
@@ -305,17 +333,30 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
   printf '%s\n' "Undaunted, the $player_class heads deeper." \
   "$player_name turns their gaze to the next narrow opening, that joins this cave, to the next." | shuf -n1 | xargs -0 printf '%s ' >> output
 
-  echo ''
-  echo ''
+  echo '' >> output
+  echo '' >> output
 done
 
 #TODO: Final monster battle, player has 50/50 succeed, failure.
 echo 'Final battle...'
 success=$(shuf -i 1-2 -n 1)
 
-#TODO: If succeed, player has 50/50 chance of convincing princess to return, or her being the strange voice and eating their soul.
 if [ "$success" = 1 ]; then
+  #TODO: If succeed, player has 50/50 chance of convincing princess to return, or her being the strange voice and eating their soul.
   echo 'Negotiating with princess...'
+  evil_princess=$(shuf -i 1-2 -n 1)
+  if [ "$evil_princess" = 1 ]; then
+    #TODO: 5 ways the princess could murder our main character.
+    :
+  else
+    #TODO: 5 joyous, triumphant returns... Or not so joyous returns.
+    :
+  fi
+else
+  #TODO: Player lost. Dead. Try and be sensitive with our readers who just wasted their time.
+  # ~5 endings.
+  printf '%s\n' \
+    "$player_name lay on the ground, coughing as they drowned in the blood pouring from their shattered frame. It was over. The battle was lost. The princess was gone. Evil would inherit the surface... What evil? Humanity would be expunged... Which meant there was no evil, not anymore. Just the rightful owner taking back what was already theirs. Humanity was the evil. $player_name closed their eyes, for the last time." | shuf -n1 >> output
 fi
 
 echo 'Final Size:'
