@@ -51,23 +51,27 @@ gen_name() {
 
 gen_class() {
   # Choose one of...
-  printf '%s\n%s\n%s\n%s\n%s\n%s\n' 'Warrior' 'Wizard' 'Alchemist' 'Rogue' 'Cleric' 'Healer' | shuf -n1
+  printf '%s\n%s\n%s\n%s\n%s\n%s\n' 'Warrior' 'Wizard' 'Paladin' | shuf -n1
 }
 
 intro_text() {
-  # TODO: Multiple intros. Because.
-  # About ~5?
-  printf '%s\n%s\n' \
+  # Multiple intros. Because.
+  printf '%s\n%s\n%s\n%s\n%s\n' \
   'Long ago, when the four winds stood fair, and the forests sang their songs, there was a cave, beneath a castle. From that cave great evil arose, and took the symbol of purity and justice, our fair princess, and vanished into the depths below.' \
-  'Before the world we know began, there was another, full of witchcraft, demons, and princesses. One such princess has vanished, dragged into a cave by a great evil.' | shuf -n1
+  'Before the world we know began, there was another, full of witchcraft, demons, and princesses. One such princess has vanished, dragged into a cave by a great evil.' \
+  'Grief has stricken the land. Horror sweeps over the night. Our princess has been stolen, and with her, her protection. No more magic to save us from the ghosts beyond the Demonwall. She was taken, by a great evil, and hidden away in a labyrinth beneath the ground.' \
+  'Swords and spears have no strength, when there is no one to send them. Our princess is gone. Evil rose up and stole her. We know where they have taken her... But what madman would be foolish enough to enter the land beneath the ground? Where demons make parlay with something far more twisted and evil?' \
+  "From Air, Voice. From Earth, Strength. From Water, Resilience. From Fire, Will. When combined, these four elements give us the Aether, a holy magic designed to protect our world. Only one can channel Aether - our fair princess, protector of all that is just and good... But now there is none. No one to save us from the dark. She was taken, and thrust below, into a world of misery and pain. Into the caves that are the dark's great harbingers." | shuf -n1
 }
 
 intro_text2() {
-  # TODO: Multiple final intro fragments.
-  # About 5?
-  printf '%s\n%s\n' \
+  # Multiple final intro fragments.
+  printf '%s\n%s\n%s\n%s\n%s\n' \
     "It was $player_name the $player_class who delved below, to save our hope." \
-    "Rising up, it was $player_name, the legendary $player_class, who attacked the dungeon!" | shuf -n1
+    "Rising up, it was $player_name, the legendary $player_class, who attacked the dungeon!" \
+    "When no one was brave enough, when no one was strong enough, it was $player_name. The $player_class. They took up the challenge." \
+    "There was however, one person in the land who was fearless. $player_name, the $player_class." \
+    "Into the dark, into caves and labyrinths, only one did tread. $player_name, the $player_class." | shuf -n1
 }
 
 event_cave() {
@@ -230,17 +234,8 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
     elif [ "$player_class" = 'Wizard' ]; then
       #TODO: Wizard
       :
-    elif [ "$player_class" = 'Alchemist' ]; then
-      #TODO: Alchemist
-      :
-    elif [ "$player_class" = 'Rogue' ]; then
-      #TODO: Rogue
-      :
-    elif [ "$player_class" = 'Cleric' ]; then
-      #TODO: Cleric
-      :
-    elif [ "$player_class" = 'Healer' ]; then
-      #TODO: Healer
+    elif [ "$player_class" = 'Paladin' ]; then
+      #TODO: Paladin
       :
     fi
   elif [ "$enemy" = 1 ]; then
@@ -257,17 +252,8 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
     elif [ "$player_class" = 'Wizard' ]; then
       #TODO: Wizard
       :
-    elif [ "$player_class" = 'Alchemist' ]; then
-      #TODO: Alchemist
-      :
-    elif [ "$player_class" = 'Rogue' ]; then
-      #TODO: Rogue
-      :
-    elif [ "$player_class" = 'Cleric' ]; then
-      #TODO: Cleric
-      :
-    elif [ "$player_class" = 'Healer' ]; then
-      #TODO: Healer
+    elif [ "$player_class" = 'Paladin' ]; then
+      #TODO: Paladin
       :
     fi
   fi
@@ -284,17 +270,8 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
     elif [ "$player_class" = 'Wizard' ]; then
       #TODO: Wizard
       :
-    elif [ "$player_class" = 'Alchemist' ]; then
-      #TODO: Alchemist
-      :
-    elif [ "$player_class" = 'Rogue' ]; then
-      #TODO: Rogue
-      :
-    elif [ "$player_class" = 'Cleric' ]; then
-      #TODO: Cleric
-      :
-    elif [ "$player_class" = 'Healer' ]; then
-      #TODO: Healer
+    elif [ "$player_class" = 'Paladin' ]; then
+      #TODO: Paladin
       :
     fi
   fi
@@ -305,7 +282,7 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
   if [ "$evil_narrator" = 1 ]; then
     #TODO: Random remark about how terrible the player is going. ~50
     printf '%s\n%s\n' "A voice, not quite there, speaks softly. 'Your death was predicted before your birth.'" \
-    "Echoing, from some distance, a voice speaks: '$player_name, did you know? That were doomed even before you began?'" | shuf -n1 | xargs -0 printf '%s ' >> output
+    "Echoing, from some distance, a voice speaks: '$player_name, did you know? That you were doomed even before you began?'" | shuf -n1 | xargs -0 printf '%s ' >> output
   fi
 
   # Then traces
