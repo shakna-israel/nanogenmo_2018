@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 
 gen_name_diagram() {
   # Grab a random twochar selection from the dictionary, and lowercase it.
@@ -129,6 +129,7 @@ title_prepender() {
 }
 
 random_title() {
+  #TODO: This is craaaaaaaaaaaaaaaaaaap.
     echo "$player_name the $player_class$(title_action) $(title_descriptor) $(title_prepender)"
 }
 
@@ -160,7 +161,7 @@ echo 'Beginning main loop...'
 
 # Set the first chapter heading
 #TODO: Make this loop to 50,000 again.
-while [ "$(wc -w output | awk '{print $1}')" -lt 5000 ]; do
+while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
   echo 'Setting chapter title...'
   echo '' >> output
   title=$(random_title)
@@ -176,7 +177,7 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 5000 ]; do
   crystals=$(echo "$data" | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $4}')
   echo "Crystals: $crystals"
   if [ "$crystals" = 1 ]; then
-    # TODO: ~25 crystal descriptors.
+    # TODO: ~15 crystal descriptors.
     printf '%s\n%s\n%s\n' 'The walls are studded with gems. ' \
       'The ground is littered with small gemstones, embedded deeply into the rock. ' \
       'Some crystalline structures can be seen lining the walls. ' \
@@ -186,7 +187,7 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 5000 ]; do
   sunlight=$(echo "$data" | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $5}')
   echo "Sunlight: $sunlight"
   if [ "$sunlight" = 1 ]; then
-    # TODO: ~25 light descriptors.
+    # TODO: ~15 light descriptors.
     printf '%s\n%s\n%s\n' 'A small beam of light breaks through from somewhere above, lighting the cave.' \
       'An unknown light illuminates the area.' \
       'A slither of light illuminates the center of the cave.' \
@@ -197,7 +198,7 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 5000 ]; do
   blood=$(echo "$data" | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $6}')
   echo "Blood: $blood"
   if [ "$blood" = 1 ]; then
-    #TODO: ~ 25 blood descriptors.
+    #TODO: ~15 blood descriptors.
     printf '%s\n%s\n%s\n' "There's a small trail of blood here." \
       "There's a splash of blood against the wall." \
       'A sharp eye can detect patches of darkened red in the malformed rock. Blood.' | shuf -n1 | xargs -0 printf '%s ' >> output
@@ -207,7 +208,7 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 5000 ]; do
   water=$(echo "$data" | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $3}')
   echo "Water: $water"
   if [ "$water" = 1 ]; then
-    #TODO: ~25 water descriptors.
+    #TODO: ~15 water descriptors.
     printf '%s\n%s\n%s\n' 'A stream of water winds through the cave.' \
       'Water drips from the ceiling.' \
       'A small stream runs down one wall of the cave.' | shuf -n1 | xargs -0 printf '%s ' >> output
@@ -223,7 +224,7 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 5000 ]; do
   echo "Enemy: $enemy"
   # Enemies and bosses are mutually exclusive.
   if [ "$boss" = 1 ]; then
-    #TODO: ~25 boss fight introductions.
+    #TODO: ~15 boss fight introductions.
     printf '%s\n%s\n' 'The ground trembles as something approaches out of the dark.' \
       "The hairs on the back of $player_name's neck stand up. There's something here." \
       | shuf -n1 | xargs -0 printf '%s ' >> output
@@ -256,15 +257,34 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 5000 ]; do
       echo '' >> output
     elif [ "$player_class" = 'Wizard' ]; then
       # Wizard
-      # TODO: Round 1
+      # Round 1
       printf '%s\n%s\n%s\n' "$player_name recognised the signs instantly. They'd been in enough summonings-gone-wrong to know when a Demon was about to make their entrance. The gouts of flame bounced harmlessly off the conjured Ward. The Demon looked a bit disappointed for a moment, before unleashing a deafening explosion of flame. $player_name winced, watching their Ward cracking. It buckled. The Wizard was pounded into the wall." \
+        "Wizards often speak about the subtelty of magic, about how a small nuance can change the entire flow of magic. Demons, on the other hand, are not subtle. As evidenced by the ground exploding in front of $player_name. The Wizard tossed up a Ward to block the incoming debris, and then fired off another spell, searching for the Demon's name, so they could damn them back to the Underworld. Unfortunately, this somewhat distracted $player_name from the Demon reappearing behind them. Not so much from the finger-flick that propelled them into the opposite cave wall." \
+        "A hissing voice, chanting, filled the cave. $player_name yawned for a moment, before casting a weak dispell. It rebounded immediately. The Wizard snapped to attention, eyes shifting rapidly, as they formed a ball of mana between their hands. The Demon obliged by stepping into view, scales, warts and tails. It crossed it's arms, unimpressed. The Wizard yelled, and tossed the ball of fire, which the Demon proceeded to swat back. $player_name was knocked backwards into the cave wall." | shuf -n1 | xargs -0 printf '%s ' >> output
+      echo '' >> output
+      echo '' >> output
+      # TODO: Round 2, player against wall, injured.
+      printf '%s\n%s\n%s\n' "" \
         "" \
         "" | shuf -n1 | xargs -0 printf '%s ' >> output
-      # TODO: Round 2, player against wall, injured.
       # TODO: Round 3
+      printf '%s\n%s\n%s\n' "" \
+        "" \
+        "" | shuf -n1 | xargs -0 printf '%s ' >> output
     elif [ "$player_class" = 'Paladin' ]; then
       #TODO: Paladin
-      :
+      # TODO: Round 1
+      printf '%s\n%s\n%s\n' "" \
+        "" \
+        "" | shuf -n1 | xargs -0 printf '%s ' >> output
+      # TODO: Round 2
+      printf '%s\n%s\n%s\n' "" \
+        "" \
+        "" | shuf -n1 | xargs -0 printf '%s ' >> output
+      # TODO: Round 3
+      printf '%s\n%s\n%s\n' "" \
+        "" \
+        "" | shuf -n1 | xargs -0 printf '%s ' >> output
     fi
   elif [ "$enemy" = 1 ]; then
     #TODO: ~25 fight introductions.
@@ -276,13 +296,19 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 5000 ]; do
     #TODO: Class-based fight, several rounds. Random if player wins outright, or nearly loses.
     if [ "$player_class" = 'Warrior' ]; then
       #TODO: Warrior
-      :
+      printf '%s\n%s\n%s\n' "" \
+        "" \
+        "" | shuf -n1 | xargs -0 printf '%s ' >> output
     elif [ "$player_class" = 'Wizard' ]; then
       #TODO: Wizard
-      :
+      printf '%s\n%s\n%s\n' "" \
+        "" \
+        "" | shuf -n1 | xargs -0 printf '%s ' >> output
     elif [ "$player_class" = 'Paladin' ]; then
       #TODO: Paladin
-      :
+      printf '%s\n%s\n%s\n' "" \
+        "" \
+        "" | shuf -n1 | xargs -0 printf '%s ' >> output
     fi
   fi
 
@@ -294,13 +320,19 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 5000 ]; do
     printf '' | shuf -n1 | xargs -0 printf '%s ' >> output
     if [ "$player_class" = 'Warrior' ]; then
       #TODO: Warrior
-      :
+      printf '%s\n%s\n%s\n' "" \
+        "" \
+        "" | shuf -n1 | xargs -0 printf '%s ' >> output
     elif [ "$player_class" = 'Wizard' ]; then
       #TODO: Wizard
-      :
+      printf '%s\n%s\n%s\n' "" \
+        "" \
+        "" | shuf -n1 | xargs -0 printf '%s ' >> output
     elif [ "$player_class" = 'Paladin' ]; then
       #TODO: Paladin
-      :
+      printf '%s\n%s\n%s\n' "" \
+        "" \
+        "" | shuf -n1 | xargs -0 printf '%s ' >> output
     fi
   fi
 
@@ -355,20 +387,24 @@ if [ "$success" = 1 ]; then
 else
   #TODO: Player lost. Dead. Try and be sensitive with our readers who just wasted their time.
   # ~5 endings.
-  printf '%s\n' \
-    "$player_name lay on the ground, coughing as they drowned in the blood pouring from their shattered frame. It was over. The battle was lost. The princess was gone. Evil would inherit the surface... What evil? Humanity would be expunged... Which meant there was no evil, not anymore. Just the rightful owner taking back what was already theirs. Humanity was the evil. $player_name closed their eyes, for the last time." | shuf -n1 >> output
+  printf '%s\n%s\n%s\n%s\n%s\n' \
+    "$player_name lay on the ground, coughing as they drowned in the blood pouring from their shattered frame. It was over. The battle was lost. The princess was gone. Evil would inherit the surface... What evil? Humanity would be expunged... Which meant there was no evil, not anymore. Just the rightful owner taking back what was already theirs. Humanity was the evil. $player_name closed their eyes, for the last time." \
+    "$player_name collapsed backwards, staring at the black ceiling, unseeing. Their senses were fading or gone. The last moment, their last moment, was hearing a distant scream, of a dying princess. Of hope dying. Our hope is dead." \
+    "The $player_class hit the ground, coughing violently. The monster stood over them, snarling. They couldn't get up. Couldn't fight back. They looked up bleakly, spying the face of a woman they'd idolised, a princess, her face locked in shock and horror. A single tear slid down her cheek. The creature grasped $player_name's head, and wrenched." \
+    "A sword of shadow stabbed forward, and through $player_name. They coughed a black bloody mucus onto the ground. The creature sighed heavily, showing a disappointment, whilst in the background a woman whimpers queitly. The sword was jerked free. The $player_class folded onto the ground." \
+    "" | shuf -n1 >> output
 fi
 
 echo 'Final Size:'
 wc -w output
 
-# Build PDF
-echo 'Building pdf...'
-pandoc --toc --chapters -fmarkdown output -obuild.pdf
-
 # Build HTML
 echo 'Building HTML...'
 pandoc --toc --chapters -fmarkdown output -thtml -obuild.html
+
+# Build PDF
+echo 'Building pdf...'
+pandoc --toc --chapters -fmarkdown output -obuild.pdf
 
 # Build ePub
 echo 'Building ePub...'
