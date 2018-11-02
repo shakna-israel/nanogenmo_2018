@@ -37,7 +37,7 @@ gen_name_diagram() {
   do
     val=$(cat /usr/share/dict/words | cut -c-2 | uniq | shuf -n1 | tr '[:upper:]' '[:lower:]')
   done
-  echo "$val"
+  echo "$val" | tr -cd '[[:alnum:]]'
 }
 
 gen_name() {
@@ -217,7 +217,7 @@ echo 'Beginning main loop...'
 
 # Set the first chapter heading
 #TODO: Make this loop to 50,000 again.
-while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
+while [ "$(wc -w output | awk '{print $1}')" -lt 50000 ]; do
   echo 'Setting chapter title...'
   echo '' >> output
   title=$(random_title)
@@ -326,14 +326,14 @@ while [ "$(wc -w output | awk '{print $1}')" -lt 500 ]; do
         "A hissing voice, chanting, filled the cave. $player_name yawned for a moment, before casting a weak dispell. It rebounded immediately. The Wizard snapped to attention, eyes shifting rapidly, as they formed a ball of mana between their hands. The Demon obliged by stepping into view, scales, warts and tails. It crossed it's arms, unimpressed. The Wizard yelled, and tossed the ball of fire, which the Demon proceeded to swat back. $player_name was knocked backwards into the cave wall." | shuf -n1 | xargs -0 printf '%s ' >> output
       echo '' >> output
       echo '' >> output
-      # TODO: Round 2, player against wall, injured.
-      printf '%s\n%s\n%s\n' "" \
-        "" \
-        "" | shuf -n1 | xargs -0 printf '%s ' >> output
-      # TODO: Round 3
-      printf '%s\n%s\n%s\n' "" \
-        "" \
-        "" | shuf -n1 | xargs -0 printf '%s ' >> output
+      # Round 2, player against wall, injured.
+      printf '%s\n%s\n%s\n' "The demon looked down at $player_name, shaking their head. 'Do you believe you can win, puny creature?' The demon asked, as $player_name forced themselves upright, and then with gritted teeth, they cast a exorcism. The demon looked mildly irritated as the spell collapsed around them." \
+        "'Stupid, little, weak wizard. Playing at magic.' The demon growled as $player_name pushed themselves upright. The Wizard winced, holding their side, and then cast a fireball towards the demon. It bit and swallowed the ball out of the air." \
+        "$player_name forced themselves upright, dusting off their cloak. The demon spread their hands, 'I'm waiting.' The wizard yelled, and clapped their hands, sending a shockwave of sound towards the infernal creature. The demon blinked as the wave passed over them, 'That almost hurt.'" | shuf -n1 | xargs -0 printf '%s ' >> output
+      # Round 3
+      printf '%s\n%s\n%s\n' "The demon grabbed $player_name by the neck, 'Time to die, little wizard.' Touch was the mistake. The Wizard grabbed a hair from the creature's arm, and uttered a dispell. The demon immediately vanished in a roar of flames. $player_name pushed themselves upright, dusting off the ash." \
+        "$player_name yelled and stabbed a dagger into their own hand. The demon stared in surprise, 'What are you doing?' However, the blood magic was already at work, and the evil magic did as commanded. The demon yelled a moment before it's own blood boiled and it melted into a disgusting puddle on the ground. $player_name bandaged their hand carefully, and stood up, holding their nose." \
+        "The demon glared at the wizard, 'What now? What can you possibly do but die?' However, $player_name pulled a smal crystal from their cloak, and breathed on it softly. The demon was purplexed, and went to slash the wizard. $player_name tossed their hand up, and the demon struck the crystal, and screamed in surprise as they were pulled inside it. The wizard took a moment to breathe, and then crushed the crystal underfoot." | shuf -n1 | xargs -0 printf '%s ' >> output
     elif [ "$player_class" = 'Paladin' ]; then
       #TODO: Paladin
       # TODO: Round 1
